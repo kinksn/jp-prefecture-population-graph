@@ -19,9 +19,13 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "noImplicitAny": true,
+
+    /* type */
+    "types": ["vitest/globals", "vite/client"]
   },
-  "include": ["src"]
+  "include": ["src/**/*"],
+  "exclude": ["vitest.config.ts", "src/**/*.test.ts"]
 }
