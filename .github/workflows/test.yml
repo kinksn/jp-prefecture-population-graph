@@ -1,0 +1,50 @@
+name: CI / test
+
+on:
+  push:
+    branches: [main, develop]
+
+  pull_request:
+    branches: ['**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [21.4.0]
+
+    steps:
+      # ① ソース取得
+      - uses: actions/checkout@v4
+
+      # ② Node.js を 21.4.0 でセットアップ（pnpm キャッシュは OFF）
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # ③ pnpm をインストール
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9          # プロジェクトで使っている pnpm メジャー
+          standalone: true    # 単体バイナリで高速
+          run_install: false  # install はあとで実行する
+
+      # ④ pnpm ストアをキャッシュ
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      # ⑤ 依存インストール
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ⑥ テスト実行
+      - name: Run unit tests
+        run: pnpm exec vitest run
