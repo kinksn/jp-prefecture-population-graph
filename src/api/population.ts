@@ -1,23 +1,23 @@
 import { z } from 'zod';
 import { apiFetch } from '@/api/client';
 
-const PopItem = z.object({
+const PopulationItem = z.object({
   year: z.number(),
   value: z.number(),
   rate: z.number().optional(),
 });
-const PopSeries = z.object({
+const PoplationSeries = z.object({
   label: z.string(),
-  data: z.array(PopItem),
+  data: z.array(PopulationItem),
 });
 const PopulationResponse = z.object({
   message: z.null(),
   result: z.object({
     boundaryYear: z.number(),
-    data: z.array(PopSeries),
+    data: z.array(PoplationSeries),
   }),
 });
-export type PopulationSeries = z.infer<typeof PopSeries>;
+export type PopulationSeries = z.infer<typeof PoplationSeries>;
 
 const popCache = new Map<number, Promise<PopulationSeries[]>>();
 
@@ -27,15 +27,9 @@ export function getPopulation(prefCode: number): Promise<PopulationSeries[]> {
     popCache.set(
       prefCode,
       apiFetch<z.infer<typeof PopulationResponse>>(
-        `/population/composition/perYear?prefCode=${prefCode}`
-      ).then((d) => PopulationResponse.parse(d).result.data)
+        `/population/composition/perYear?prefCode=${prefCode}`,
+      ).then((d) => PopulationResponse.parse(d).result.data),
     );
   }
   return popCache.get(prefCode)!;
-}
-
-/** キャッシュクリア（任意タイミングで失効させる用） */
-export function clearPopulationCache(prefCode?: number) {
-  if (prefCode !== undefined) popCache.delete(prefCode);
-  else popCache.clear();
 }
