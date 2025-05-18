@@ -13,6 +13,14 @@ vi.mock('highcharts-react-official', () => ({
   default: () => <div data-testid="chart" />, 
 }));
 
+// フックをモック
+vi.mock('@/hook/usePrefectures', () => ({
+  usePrefectures: () => ({ data: [], isLoading: false })
+}));
+vi.mock('@/hook/usePopulation', () => ({
+  usePopulations: () => ({ data: [], isLoading: false })
+}));
+
 describe('Test component', () => {
   it('「Click me」ボタンが描画される', () => {
     render(<Test />);

@@ -1,4 +1,4 @@
-import { Provider } from './components/providers/Provider';
+import { Provider } from '@/components/providers/Provider';
 import { Test } from './tmp/Test';
 
 function App() {
