@@ -2,8 +2,14 @@ import { Button } from '@radix-ui/themes';
 import { SunIcon } from '@radix-ui/react-icons';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { usePrefectures } from '@/hook/usePrefectures';
+import { usePopulations } from '@/hook/usePopulation';
 
 export const Test = () => {
+  const { data: prefs } = usePrefectures();
+  const { data: populations }  = usePopulations([3]);
+  console.log("prefs = ", prefs);
+  console.log("populations = ", populations);
   return (
     <div className="p-8">
       {/* 基本ボタン */}
