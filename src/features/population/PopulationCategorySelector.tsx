@@ -1,7 +1,9 @@
+import { PopulationCategory } from '@/lib/type';
+
 type PopulationCategorySelector = {
-  value: string;
-  onChange: (c: string) => void;
-  options: string[];
+  value: PopulationCategory;
+  onChange: (populationCategory: PopulationCategory) => void;
+  options: PopulationCategory[];
 };
 
 export const PopulationCategorySelector = ({

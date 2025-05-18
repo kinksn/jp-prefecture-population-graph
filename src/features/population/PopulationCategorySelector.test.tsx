@@ -1,0 +1,72 @@
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { PopulationCategorySelector } from '@/features/population/PopulationCategorySelector';
+import { PopulationCategory } from '@/lib/type';
+
+describe('PopulationCategorySelector', () => {
+  const mockOptions: PopulationCategory[] = [
+    '総人口',
+    '年少人口',
+    '生産年齢人口',
+    '老年人口',
+  ];
+  const mockOnChange = vi.fn();
+
+  beforeEach(() => {
+    mockOnChange.mockClear();
+  });
+
+  it('正しくレンダリングされること', () => {
+    render(
+      <PopulationCategorySelector
+        value={mockOptions[0]}
+        onChange={mockOnChange}
+        options={mockOptions}
+      />,
+    );
+
+    expect(screen.getByText('人口区分')).toBeDefined();
+
+    mockOptions.forEach((option) => {
+      expect(screen.getByLabelText(option)).toBeDefined();
+    });
+  });
+
+  it('選択されたオプションがチェックされていること', () => {
+    render(
+      <PopulationCategorySelector
+        value={mockOptions[1]}
+        onChange={mockOnChange}
+        options={mockOptions}
+      />,
+    );
+
+    const checkedInput = screen.getByLabelText(
+      mockOptions[1],
+    ) as HTMLInputElement;
+    expect(checkedInput.checked).toBe(true);
+
+    mockOptions
+      .filter((option) => option !== mockOptions[1])
+      .forEach((option) => {
+        const input = screen.getByLabelText(option) as HTMLInputElement;
+        expect(input.checked).toBe(false);
+      });
+  });
+
+  it('オプションがクリックされたとき、onChangeが正しく呼ばれること', () => {
+    render(
+      <PopulationCategorySelector
+        value={mockOptions[0]}
+        onChange={mockOnChange}
+        options={mockOptions}
+      />,
+    );
+
+    const secondOption = screen.getByLabelText(mockOptions[1]);
+    fireEvent.click(secondOption);
+
+    expect(mockOnChange).toHaveBeenCalledTimes(1);
+    expect(mockOnChange).toHaveBeenCalledWith(mockOptions[1]);
+  });
+});
