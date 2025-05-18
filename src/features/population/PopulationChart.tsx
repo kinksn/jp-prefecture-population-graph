@@ -1,32 +1,30 @@
 import { PopulationSeries } from '@/api/population';
 import { Prefecture } from '@/api/prefectures';
-import { PopulationType } from '@/lib/type';
+import { PopulationCategory } from '@/lib/type';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 type PopulationChartProps = {
-  populations: PopulationSeries[][];
-  selectedPrefectures: number[];
+  value: PopulationSeries[][];
+  selectedPrefectures: Prefecture['prefCode'][];
   prefectures: Prefecture[];
-  populationCategory: PopulationType;
+  populationCategory: PopulationCategory;
 };
 
 export const PopulationChart = ({
-  populations,
+  value,
   selectedPrefectures,
   prefectures,
   populationCategory,
 }: PopulationChartProps) => {
-  if (!populations.length) return null;
+  if (!value.length) return null;
 
-  const firstSeries = populations[0].find(
-    (s) => s.label === populationCategory,
-  );
+  const firstSeries = value[0].find((s) => s.label === populationCategory);
   if (!firstSeries) return null;
 
   const populationType = firstSeries.data.map((d) => d.year.toString());
 
-  const series = populations.map((populationData, id) => {
+  const series = value.map((populationData, id) => {
     const target = populationData.find(
       (population) => population.label === populationCategory,
     );
