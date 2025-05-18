@@ -29,9 +29,9 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 9          # プロジェクトで使っている pnpm メジャー
-          standalone: true    # 単体バイナリで高速
-          run_install: false  # install はあとで実行する
+          version: 9 # プロジェクトで使っている pnpm メジャー
+          standalone: true # 単体バイナリで高速
+          run_install: false # install はあとで実行する
 
       # ④ pnpm ストアをキャッシュ
       - name: Cache pnpm store
@@ -48,3 +48,5 @@ jobs:
       # ⑥ テスト実行
       - name: Run unit tests
         run: pnpm exec vitest run
+        env:
+          VITE_RESAS_API_KEY: 'dummy-key-for-testing'
