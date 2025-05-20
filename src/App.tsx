@@ -6,6 +6,7 @@ import { PopulationCategorySelector } from '@/features/population/PopulationCate
 import { PopulationChart } from '@/features/population/PopulationChart';
 import { PopulationCategory } from '@/lib/type';
 import { Prefecture } from '@/api/prefectures';
+// import PanelIcon from '@/components/assets/icons/panel.svg?react';
 
 const POPULATION_CATEGORIES: PopulationCategory[] = [
   '総人口',
@@ -38,6 +39,7 @@ function App() {
 
   return (
     <div className="space-y-8 p-8">
+      <div className="bg-content-base shadow-content rounded-content border-borderBasic size-[400px] border"></div>
       <PrefectureSelector
         value={prefecturesData}
         selectedPrefectures={selectedPrefectures}
@@ -51,7 +53,7 @@ function App() {
         options={POPULATION_CATEGORIES}
       />
       {selectedPrefectures.length === 0 ? (
-        <p className="text-gray-500">都道府県を選択してください</p>
+        <p>都道府県を選択してください</p>
       ) : isLoadingPopulation ? (
         <p>Loading chart…</p>
       ) : (

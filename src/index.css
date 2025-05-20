@@ -1,1 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&display=swap');
 @import 'tailwindcss';
+
+@theme {
+  --font-zenKakuGothicNew: 'Zen Kaku Gothic New', sans-serif;
+
+  --color-tab-bg: #eaf3f8;
+  --color-heading: #344554;
+  --color-paragraph-basic: #233539;
+  --color-paragraph-weak: #566575;
+  --color-base: #f4f8f9;
+  --color-borderBasic: #dbe6f2;
+  --color-panel-inactive: #566575;
+  --color-primary-blue: #3284d6;
+
+  --background-image-content-base: linear-gradient(
+    128.67deg,
+    #ffffff 23.76%,
+    #f7faff 133.63%
+  );
+
+  --radius-content: 1.25rem;
+  --shadow-content:
+    1px 2px 20px rgba(18, 61, 101, 0.05),
+    inset -18.4px -13.8px 184px rgba(255, 255, 255, 0.18);
+  --shadow-inset: inset 3px 3px 7px rgba(136, 165, 191, 0.1);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-zenKakuGothicNew);
+    background-color: var(--color-base);
+  }
+}
+
+@layer utilities {
+  .shadow-content {
+    box-shadow: var(--shadow-content);
+  }
+  .shadow-inset {
+    box-shadow: var(--shadow-inset);
+  }
+}
