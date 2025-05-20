@@ -21,7 +21,6 @@ describe('PopulationCategorySelector', () => {
       <PopulationCategorySelector
         value={mockOptions[0]}
         onChange={mockOnChange}
-        options={mockOptions}
       />,
     );
 
@@ -37,7 +36,6 @@ describe('PopulationCategorySelector', () => {
       <PopulationCategorySelector
         value={mockOptions[1]}
         onChange={mockOnChange}
-        options={mockOptions}
       />,
     );
 
@@ -59,7 +57,6 @@ describe('PopulationCategorySelector', () => {
       <PopulationCategorySelector
         value={mockOptions[0]}
         onChange={mockOnChange}
-        options={mockOptions}
       />,
     );
 

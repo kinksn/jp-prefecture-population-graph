@@ -22,6 +22,7 @@ describe('PrefectureSelector', () => {
         value={mockPrefectures}
         selectedPrefectures={mockSelectedPrefectures}
         togglePrefecture={mockToggle}
+        isLoadingPrefectures={false}
       />,
     );
 
@@ -38,6 +39,7 @@ describe('PrefectureSelector', () => {
         value={mockPrefectures}
         selectedPrefectures={mockSelectedPrefectures}
         togglePrefecture={mockToggle}
+        isLoadingPrefectures={false}
       />,
     );
 
@@ -57,6 +59,7 @@ describe('PrefectureSelector', () => {
         value={mockPrefectures}
         selectedPrefectures={mockSelectedPrefectures}
         togglePrefecture={mockToggle}
+        isLoadingPrefectures={false}
       />,
     );
 

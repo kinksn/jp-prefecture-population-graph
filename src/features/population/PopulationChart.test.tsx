@@ -70,7 +70,7 @@ describe('PopulationChart', () => {
         value={mockPopulations}
         selectedPrefectures={mockSelectedPrefectures}
         prefectures={mockPrefectures}
-        populationCategory={mockCategory}
+        isLoadingPopulation={false}
       />,
     );
 
@@ -86,7 +86,7 @@ describe('PopulationChart', () => {
         value={[]}
         selectedPrefectures={mockSelectedPrefectures}
         prefectures={mockPrefectures}
-        populationCategory={mockCategory}
+        isLoadingPopulation={true}
       />,
     );
 
@@ -94,13 +94,22 @@ describe('PopulationChart', () => {
   });
 
   it('指定されたカテゴリのデータが存在しない場合、何もレンダリングされないこと', () => {
-    const nonExistingCategory = '存在しないカテゴリ' as PopulationCategory;
     const { container } = render(
       <PopulationChart
-        value={mockPopulations}
+        value={[
+          [
+            {
+              label: '存在しないカテゴリ',
+              data: [
+                { year: 2015, value: 1000 },
+                { year: 2020, value: 900 },
+              ],
+            },
+          ],
+        ]}
         selectedPrefectures={mockSelectedPrefectures}
         prefectures={mockPrefectures}
-        populationCategory={nonExistingCategory}
+        isLoadingPopulation={true}
       />,
     );
 

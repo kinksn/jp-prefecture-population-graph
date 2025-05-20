@@ -3,20 +3,27 @@ import { Prefecture } from '@/api/prefectures';
 import { PopulationCategory } from '@/lib/type';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { PopulationCategorySelector } from './PopulationCategorySelector';
+import { useState } from 'react';
+
+const INIT_POPULATION_CATEGOTY: PopulationCategory = '総人口';
 
 type PopulationChartProps = {
   value: PopulationSeries[][];
   selectedPrefectures: Prefecture['prefCode'][];
   prefectures: Prefecture[];
-  populationCategory: PopulationCategory;
+  isLoadingPopulation: boolean;
 };
 
 export const PopulationChart = ({
   value,
   selectedPrefectures,
   prefectures,
-  populationCategory,
+  isLoadingPopulation,
 }: PopulationChartProps) => {
+  const [populationCategory, setPopulationCategory] =
+    useState<PopulationCategory>(INIT_POPULATION_CATEGOTY);
+
   if (!value.length) return null;
 
   const firstSeries = value[0].find((s) => s.label === populationCategory);
@@ -45,5 +52,19 @@ export const PopulationChart = ({
     series,
   };
 
-  return <HighchartsReact highcharts={Highcharts} options={options} />;
+  return (
+    <>
+      <PopulationCategorySelector
+        onChange={setPopulationCategory}
+        value={populationCategory}
+      />
+      <div className="mix-blend-darken">
+        {isLoadingPopulation ? (
+          <p>Loading chart…</p>
+        ) : (
+          <HighchartsReact highcharts={Highcharts} options={options} />
+        )}
+      </div>
+    </>
+  );
 };

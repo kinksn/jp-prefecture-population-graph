@@ -2,20 +2,11 @@ import { useState } from 'react';
 import { usePrefectures } from '@/hooks/usePrefectures';
 import { usePopulations } from '@/hooks/usePopulations';
 import { PrefectureSelector } from '@/features/population/PrefectureSelector';
-import { PopulationCategorySelector } from '@/features/population/PopulationCategorySelector';
 import { PopulationChart } from '@/features/population/PopulationChart';
-import { PopulationCategory } from '@/lib/type';
 import { Prefecture } from '@/api/prefectures';
-// import PanelIcon from '@/components/assets/icons/panel.svg?react';
-
-const POPULATION_CATEGORIES: PopulationCategory[] = [
-  '総人口',
-  '年少人口',
-  '生産年齢人口',
-  '老年人口',
-];
-
-const INIT_POPULATION_CATEGOTY: PopulationCategory = '総人口';
+import { Header, HEADER_HEIGHT } from '@/components/organisms/Header';
+import { SideMenu, SIDEMENU_WIDTH } from '@/components/organisms/SideMenu';
+import { ContentBase } from '@/components/templates/ContentBase';
 
 function App() {
   const { data: prefecturesData = [], isLoading: isLoadingPrefectures } =
@@ -25,8 +16,6 @@ function App() {
   >([]);
   const { data: populationsData, isLoading: isLoadingPopulation } =
     usePopulations(selectedPrefectures);
-  const [populationCategory, setPopulationCategory] =
-    useState<PopulationCategory>(INIT_POPULATION_CATEGOTY);
 
   const togglePrefecture = (prefCode: Prefecture['prefCode']) =>
     setSelectedPrefectures((prev) =>
@@ -35,35 +24,37 @@ function App() {
         : [...prev, prefCode],
     );
 
-  if (isLoadingPrefectures) return <p>Loading prefectures…</p>;
-
   return (
-    <div className="space-y-8 p-8">
-      <div className="bg-content-base shadow-content rounded-content border-borderBasic size-[400px] border"></div>
-      <PrefectureSelector
-        value={prefecturesData}
-        selectedPrefectures={selectedPrefectures}
-        togglePrefecture={togglePrefecture}
-      />
-      <PopulationCategorySelector
-        value={populationCategory}
-        onChange={(populationCategory) =>
-          setPopulationCategory(populationCategory)
-        }
-        options={POPULATION_CATEGORIES}
-      />
-      {selectedPrefectures.length === 0 ? (
-        <p>都道府県を選択してください</p>
-      ) : isLoadingPopulation ? (
-        <p>Loading chart…</p>
-      ) : (
-        <PopulationChart
-          value={populationsData}
+    <div className="relative h-svh">
+      <main
+        className="h-full pb-10 pl-5 transition"
+        style={{ paddingRight: `${SIDEMENU_WIDTH + 20}px` }}
+      >
+        <Header />
+        <ContentBase
+          className="h-[calc] p-10"
+          style={{ height: `calc(100% - ${HEADER_HEIGHT}px)` }}
+        >
+          {selectedPrefectures.length === 0 ? (
+            <p>都道府県を選択してください</p>
+          ) : (
+            <PopulationChart
+              value={populationsData}
+              selectedPrefectures={selectedPrefectures}
+              prefectures={prefecturesData}
+              isLoadingPopulation={isLoadingPopulation}
+            />
+          )}
+        </ContentBase>
+      </main>
+      <SideMenu className="absolute top-0 right-0" headerLabel="都道府県を選択">
+        <PrefectureSelector
+          value={prefecturesData}
           selectedPrefectures={selectedPrefectures}
-          prefectures={prefecturesData}
-          populationCategory={populationCategory}
+          togglePrefecture={togglePrefecture}
+          isLoadingPrefectures={isLoadingPrefectures}
         />
-      )}
+      </SideMenu>
     </div>
   );
 }

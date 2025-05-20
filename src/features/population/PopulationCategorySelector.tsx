@@ -1,20 +1,25 @@
 import { PopulationCategory } from '@/lib/type';
 
+const POPULATION_CATEGORIES: PopulationCategory[] = [
+  '総人口',
+  '年少人口',
+  '生産年齢人口',
+  '老年人口',
+];
+
 type PopulationCategorySelector = {
   value: PopulationCategory;
   onChange: (populationCategory: PopulationCategory) => void;
-  options: PopulationCategory[];
 };
 
 export const PopulationCategorySelector = ({
   value,
   onChange,
-  options,
 }: PopulationCategorySelector) => (
   <fieldset>
-    <legend className="mb-2 font-bold">人口区分</legend>
+    <legend className="sr-only mb-2 font-bold">人口区分</legend>
     <div className="flex flex-wrap gap-4 text-sm">
-      {options.map((option) => (
+      {POPULATION_CATEGORIES.map((option) => (
         <label key={option} className="flex items-center gap-1">
           <input
             type="radio"
