@@ -2,8 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { PopulationChart } from './PopulationChart';
 import { PopulationSeries } from '@/api/population';
-import { Prefecture } from '@/api/prefectures';
-import { PopulationCategory } from '@/lib/type';
+import { PopulationCategory } from '@/lib/types';
 
 // highchartsのモック
 vi.mock('highcharts-react-official', () => ({
@@ -55,9 +54,14 @@ describe('PopulationChart', () => {
     ],
   ];
 
-  const mockPrefectures: Prefecture[] = [
-    { prefCode: 1, prefName: '北海道' },
-    { prefCode: 2, prefName: '青森県' },
+  const mockPrefectures = [
+    {
+      region: '北海道・東北',
+      prefs: [
+        { prefCode: 1, prefName: '北海道' },
+        { prefCode: 2, prefName: '青森県' },
+      ],
+    },
   ];
 
   const mockSelectedPrefectures = [1, 2];

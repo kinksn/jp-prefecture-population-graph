@@ -4,9 +4,10 @@ import { usePopulations } from '@/hooks/usePopulations';
 import { PrefectureSelector } from '@/features/population/PrefectureSelector';
 import { PopulationChart } from '@/features/population/PopulationChart';
 import { Prefecture } from '@/api/prefectures';
-import { Header, HEADER_HEIGHT } from '@/components/organisms/Header';
-import { SideMenu, SIDEMENU_WIDTH } from '@/components/organisms/SideMenu';
+import { Header } from '@/components/organisms/Header';
+import { SideMenu } from '@/components/organisms/SideMenu';
 import { ContentBase } from '@/components/templates/ContentBase';
+import { useSideMenu } from '@/hooks/useSideMenu';
 
 function App() {
   const { data: prefecturesData = [], isLoading: isLoadingPrefectures } =
@@ -16,6 +17,8 @@ function App() {
   >([]);
   const { data: populationsData, isLoading: isLoadingPopulation } =
     usePopulations(selectedPrefectures);
+
+  const { isSideMenuOpen } = useSideMenu();
 
   const togglePrefecture = (prefCode: Prefecture['prefCode']) =>
     setSelectedPrefectures((prev) =>
@@ -27,14 +30,10 @@ function App() {
   return (
     <div className="relative h-svh">
       <main
-        className="h-full pb-10 pl-5 transition"
-        style={{ paddingRight: `${SIDEMENU_WIDTH + 20}px` }}
+        className={`h-full ${isSideMenuOpen ? 'pr-[calc(var(--sidemenu-width)+20px)]' : 'pr-5'} pb-10 pl-5 transition`}
       >
         <Header />
-        <ContentBase
-          className="h-[calc] p-10"
-          style={{ height: `calc(100% - ${HEADER_HEIGHT}px)` }}
-        >
+        <ContentBase className="h-[calc(100%-var(--header-height))] p-10">
           {selectedPrefectures.length === 0 ? (
             <p>都道府県を選択してください</p>
           ) : (

@@ -1,13 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { PrefectureSelector } from './PrefectureSelector';
-import { Prefecture } from '@/api/prefectures';
 
 describe('PrefectureSelector', () => {
-  const mockPrefectures: Prefecture[] = [
-    { prefCode: 1, prefName: '北海道' },
-    { prefCode: 2, prefName: '青森県' },
-    { prefCode: 3, prefName: '岩手県' },
+  const mockPrefectures = [
+    {
+      region: '北海道・東北',
+      prefs: [
+        { prefCode: 1, prefName: '北海道' },
+        { prefCode: 2, prefName: '青森県' },
+      ],
+    },
   ];
   const mockSelectedPrefectures = [1, 3];
   const mockToggle = vi.fn();
@@ -26,10 +29,10 @@ describe('PrefectureSelector', () => {
       />,
     );
 
-    expect(screen.getByText('都道府県')).toBeDefined();
-
-    mockPrefectures.forEach((prefecture) => {
-      expect(screen.getByLabelText(prefecture.prefName)).toBeDefined();
+    mockPrefectures.forEach((region) => {
+      region.prefs.forEach((prefecture) => {
+        expect(screen.getByLabelText(prefecture.prefName)).toBeDefined();
+      });
     });
   });
 
@@ -43,13 +46,15 @@ describe('PrefectureSelector', () => {
       />,
     );
 
-    mockPrefectures.forEach((prefecture) => {
-      const input = screen.getByLabelText(
-        prefecture.prefName,
-      ) as HTMLInputElement;
-      expect(input.checked).toBe(
-        mockSelectedPrefectures.includes(prefecture.prefCode),
-      );
+    mockPrefectures.forEach((region) => {
+      region.prefs.forEach((prefecture) => {
+        const input = screen.getByLabelText(
+          prefecture.prefName,
+        ) as HTMLInputElement;
+        expect(input.checked).toBe(
+          mockSelectedPrefectures.includes(prefecture.prefCode),
+        );
+      });
     });
   });
 
@@ -63,10 +68,11 @@ describe('PrefectureSelector', () => {
       />,
     );
 
-    const secondPref = screen.getByLabelText(mockPrefectures[1].prefName);
-    fireEvent.click(secondPref);
+    const targetPref = mockPrefectures[0].prefs[1];
+    const input = screen.getByLabelText(targetPref.prefName);
+    fireEvent.click(input);
 
     expect(mockToggle).toHaveBeenCalledTimes(1);
-    expect(mockToggle).toHaveBeenCalledWith(mockPrefectures[1].prefCode);
+    expect(mockToggle).toHaveBeenCalledWith(targetPref.prefCode);
   });
 });

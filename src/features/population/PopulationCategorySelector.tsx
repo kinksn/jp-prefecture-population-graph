@@ -1,4 +1,4 @@
-import { PopulationCategory } from '@/lib/type';
+import { PopulationCategory } from '@/lib/types';
 
 const POPULATION_CATEGORIES: PopulationCategory[] = [
   '総人口',
@@ -16,21 +16,23 @@ export const PopulationCategorySelector = ({
   value,
   onChange,
 }: PopulationCategorySelector) => (
-  <fieldset>
-    <legend className="sr-only mb-2 font-bold">人口区分</legend>
-    <div className="flex flex-wrap gap-4 text-sm">
-      {POPULATION_CATEGORIES.map((option) => (
-        <label key={option} className="flex items-center gap-1">
-          <input
-            type="radio"
-            name="population-category"
-            value={option}
-            checked={value === option}
-            onChange={() => onChange(option)}
-          />
-          {option}
-        </label>
-      ))}
-    </div>
-  </fieldset>
+  <div>
+    <fieldset>
+      <legend className="sr-only mb-2 font-bold">人口区分</legend>
+      <div className="flex flex-wrap gap-4 text-sm">
+        {POPULATION_CATEGORIES.map((option) => (
+          <label key={option} className="flex items-center gap-1">
+            <input
+              type="radio"
+              name="population-category"
+              value={option}
+              checked={value === option}
+              onChange={() => onChange(option)}
+            />
+            {option}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  </div>
 );

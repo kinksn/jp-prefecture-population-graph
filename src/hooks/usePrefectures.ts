@@ -1,10 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { getPrefectures } from '@/api/prefectures';
+import { getPrefectures, Prefecture } from '@/api/prefectures';
+import { groupPrefecturesByRegion, RegionGroup } from '@/lib/utils';
 
 export function usePrefectures() {
-  return useQuery({
+  return useQuery<RegionGroup[]>({
     queryKey: ['prefectures'],
-    queryFn : getPrefectures,
+    queryFn: async () => {
+      const prefectures: Prefecture[] = await getPrefectures();
+      return groupPrefecturesByRegion(prefectures);
+    },
     staleTime: Infinity,
   });
 }

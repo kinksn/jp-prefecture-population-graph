@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils';
 import { ContentBase } from '@/components/templates/ContentBase';
-
-export const SIDEMENU_WIDTH = 348;
+import { useSideMenu } from '@/hooks/useSideMenu';
 
 type SideMenuProps = {
   className?: string;
@@ -14,11 +13,17 @@ export const SideMenu = ({
   headerLabel,
   children,
 }: SideMenuProps) => {
+  const { isSideMenuOpen } = useSideMenu();
+
+  if (!isSideMenuOpen) return null;
+
   return (
     <aside>
       <ContentBase
-        className={cn('h-full rounded-r-none px-5 py-8 transition', className)}
-        style={{ width: `${SIDEMENU_WIDTH}px` }}
+        className={cn(
+          `h-full w-[var(--sidemenu-width)] rounded-r-none px-5 py-8`,
+          className,
+        )}
       >
         <h3 className="mb-5 flex h-11 items-center leading-none">
           {headerLabel}
