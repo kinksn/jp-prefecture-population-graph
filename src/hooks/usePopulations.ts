@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useQueries } from '@tanstack/react-query';
-import { getPopulation, PopulationSeries } from '@/api/population';
-import { Prefecture } from '@/api/prefectures';
+import { getPopulation, PopulationSeries } from '@/api/getPopulation';
+import { Prefecture } from '@/api/getPrefectures';
 
 export function usePopulations(prefCodes: Prefecture['prefCode'][]) {
   const queryDefs = useMemo(
