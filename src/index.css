@@ -4,8 +4,9 @@
 @theme {
   --font-zenKakuGothicNew: 'Zen Kaku Gothic New', sans-serif;
 
-  --color-tab-bg: #eaf3f8;
+  --color-segmentedControl-bg: #eaf3f8;
   --color-heading: #344554;
+  --color-label: #323c47;
   --color-paragraph-basic: #233539;
   --color-paragraph-weak: #566575;
   --color-base: #f4f8f9;
@@ -13,6 +14,7 @@
   --color-inactive: #566575;
   --color-primary: #3284d6;
   --color-hover: #cedee6;
+  --color-overlay: rgba(55, 64, 70, 0.4);
 
   --background-image-content-base: linear-gradient(
     128.67deg,

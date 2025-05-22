@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SideMenuContext } from './sideMenuContextDefinition';
+import { SideMenuContext } from './sideMenuContext';
 
 const LOCAL_STORAGE_KEY = 'sideMenuState';
 

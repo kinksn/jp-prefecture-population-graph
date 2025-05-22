@@ -1,3 +1,4 @@
+import { SegmentedControl } from '@/components/atoms/SegmentedControl';
 import { PopulationCategory } from '@/lib/types';
 
 const POPULATION_CATEGORIES: PopulationCategory[] = [
@@ -9,30 +10,21 @@ const POPULATION_CATEGORIES: PopulationCategory[] = [
 
 type PopulationCategorySelector = {
   value: PopulationCategory;
+  className?: string;
   onChange: (populationCategory: PopulationCategory) => void;
 };
 
 export const PopulationCategorySelector = ({
   value,
+  className,
   onChange,
 }: PopulationCategorySelector) => (
-  <div>
-    <fieldset>
-      <legend className="sr-only mb-2 font-bold">人口区分</legend>
-      <div className="flex flex-wrap gap-4 text-sm">
-        {POPULATION_CATEGORIES.map((option) => (
-          <label key={option} className="flex items-center gap-1">
-            <input
-              type="radio"
-              name="population-category"
-              value={option}
-              checked={value === option}
-              onChange={() => onChange(option)}
-            />
-            {option}
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  </div>
+  <fieldset className={className}>
+    <legend className="sr-only mb-2 font-bold">人口区分</legend>
+    <SegmentedControl<PopulationCategory>
+      options={POPULATION_CATEGORIES}
+      value={value}
+      onChange={onChange}
+    />
+  </fieldset>
 );

@@ -1,4 +1,4 @@
-import { Prefecture } from '@/api/prefectures';
+import { Prefecture } from '@/api/getPrefectures';
 import { type ClassValue, clsx } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
 

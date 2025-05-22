@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getPrefectures, Prefecture } from '@/api/prefectures';
+import { getPrefectures, Prefecture } from '@/api/getPrefectures';
 import { groupPrefecturesByRegion, RegionGroup } from '@/lib/utils';
 
 export function usePrefectures() {

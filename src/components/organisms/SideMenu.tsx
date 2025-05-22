@@ -13,23 +13,25 @@ export const SideMenu = ({
   headerLabel,
   children,
 }: SideMenuProps) => {
-  const { isSideMenuOpen } = useSideMenu();
+  const { isSideMenuOpen, toggleSideMenu } = useSideMenu();
 
   if (!isSideMenuOpen) return null;
 
   return (
-    <aside>
+    <div className={cn('max-sm:h-full max-sm:w-full', className)}>
+      <span
+        className="bg-overlay top-o fixed left-0 hidden h-full w-full max-lg:block"
+        onClick={toggleSideMenu}
+      />
       <ContentBase
         className={cn(
-          `h-full w-[var(--sidemenu-width)] rounded-r-none px-5 py-8`,
+          `grid h-full w-[var(--sidemenu-width)] content-baseline gap-5 rounded-r-none px-5 py-8`,
           className,
         )}
       >
-        <h3 className="mb-5 flex h-11 items-center leading-none">
-          {headerLabel}
-        </h3>
+        <h3 className="flex h-11 items-center leading-none">{headerLabel}</h3>
         {children}
       </ContentBase>
-    </aside>
+    </div>
   );
 };

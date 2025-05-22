@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import {
   SideMenuContext,
   SideMenuContextType,
-} from '@/contexts/sideMenuContextDefinition';
+} from '@/contexts/sideMenu/sideMenuContext';
 
 export const useSideMenu = (): SideMenuContextType => {
   const context = useContext(SideMenuContext);

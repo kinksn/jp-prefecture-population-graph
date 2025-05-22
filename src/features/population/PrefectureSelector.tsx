@@ -1,45 +1,52 @@
-import { Prefecture } from '@/api/prefectures';
+import { Prefecture } from '@/api/getPrefectures';
+import { Checkbox } from '@/components/atoms/Checkbox';
+import { useSelectedPrefecture } from '@/hooks/useSelectedPrefecture';
 import { RegionGroup } from '@/lib/utils';
 
 type PrefectureSelectorProps = {
   value: RegionGroup[];
-  selectedPrefectures: Prefecture['prefCode'][];
   isLoadingPrefectures: boolean;
-  togglePrefecture: (prefCode: Prefecture['prefCode']) => void;
 };
 
 export const PrefectureSelector = ({
   value,
-  selectedPrefectures,
   isLoadingPrefectures,
-  togglePrefecture,
-}: PrefectureSelectorProps) => (
-  <div>
-    {isLoadingPrefectures ? (
-      <p>Loading prefectures…</p>
-    ) : (
-      <div>
-        {value.map((region) => (
-          <fieldset key={region.region} className="mb-4">
-            <legend className="mb-2 font-bold">{region.region}</legend>
-            <div className="grid grid-cols-4 gap-2 text-sm">
-              {region.prefs.map((prefecture) => (
-                <label
-                  key={prefecture.prefCode}
-                  className="flex items-center gap-1"
-                >
-                  <input
-                    type="checkbox"
+}: PrefectureSelectorProps) => {
+  const { selectedPrefectures, setSelectedPrefectures } =
+    useSelectedPrefecture();
+
+  const togglePrefecture = (prefCode: Prefecture['prefCode']) =>
+    setSelectedPrefectures((prev) =>
+      prev.includes(prefCode)
+        ? prev.filter((prevPrefCode) => prevPrefCode !== prefCode)
+        : [...prev, prefCode],
+    );
+
+  return (
+    <div className="overflow-y-scroll">
+      {isLoadingPrefectures ? (
+        <p>Loading prefectures…</p>
+      ) : (
+        <div>
+          {value.map((region) => (
+            <fieldset key={region.region} className="mb-7">
+              <legend className="text-label bg-base mb-4 flex w-full rounded-lg p-4 leading-none font-bold">
+                {region.region}
+              </legend>
+              <div className="flex cursor-pointer flex-wrap gap-3 text-sm">
+                {region.prefs.map((prefecture) => (
+                  <Checkbox
+                    key={prefecture.prefCode}
+                    label={prefecture.prefName}
                     checked={selectedPrefectures.includes(prefecture.prefCode)}
                     onChange={() => togglePrefecture(prefecture.prefCode)}
                   />
-                  {prefecture.prefName}
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        ))}
-      </div>
-    )}
-  </div>
-);
+                ))}
+              </div>
+            </fieldset>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};

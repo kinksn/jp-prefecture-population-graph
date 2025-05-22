@@ -27,5 +27,5 @@ export async function apiFetch<T>(
   if (!res.ok) {
     throw new ApiError(res.status, await res.json().catch(() => null));
   }
-  return res.json() as Promise<T>;
+  return res.json();
 }
