@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { PopulationCategorySelector } from '@/features/population/PopulationCategorySelector';
-import { PopulationCategory } from '@/lib/type';
+import { PopulationCategory } from '@/lib/types';
 
 describe('PopulationCategorySelector', () => {
   const mockOptions: PopulationCategory[] = [
@@ -21,7 +21,6 @@ describe('PopulationCategorySelector', () => {
       <PopulationCategorySelector
         value={mockOptions[0]}
         onChange={mockOnChange}
-        options={mockOptions}
       />,
     );
 
@@ -37,7 +36,6 @@ describe('PopulationCategorySelector', () => {
       <PopulationCategorySelector
         value={mockOptions[1]}
         onChange={mockOnChange}
-        options={mockOptions}
       />,
     );
 
@@ -59,7 +57,6 @@ describe('PopulationCategorySelector', () => {
       <PopulationCategorySelector
         value={mockOptions[0]}
         onChange={mockOnChange}
-        options={mockOptions}
       />,
     );
 

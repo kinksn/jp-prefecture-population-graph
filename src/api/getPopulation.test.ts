@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { getPopulation } from './population';
+import { getPopulation } from './getPopulation';
 import * as apiClient from './client';
 
 // 個別のテスト環境で実行
@@ -104,7 +104,7 @@ describe('getPopulation - different prefCodes', () => {
     }));
 
     // モック適用後にモジュールをインポート
-    const { getPopulation } = await import('./population');
+    const { getPopulation } = await import('./getPopulation');
 
     // 異なる県コードでAPIを呼び出す
     await getPopulation(1);

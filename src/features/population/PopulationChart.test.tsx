@@ -1,9 +1,23 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { PopulationChart } from './PopulationChart';
-import { PopulationSeries } from '@/api/population';
-import { Prefecture } from '@/api/prefectures';
-import { PopulationCategory } from '@/lib/type';
+import { PopulationSeries } from '@/api/getPopulation';
+import { SelectedPrefecturesContext } from '@/contexts/selectedPrefectures/selectedPrefecturesContext';
+
+const mockSelectedPrefectures = [1, 2];
+
+const renderWithProvider = (ui: React.ReactElement) => {
+  return render(
+    <SelectedPrefecturesContext.Provider
+      value={{
+        selectedPrefectures: mockSelectedPrefectures,
+        setSelectedPrefectures: vi.fn(),
+      }}
+    >
+      {ui}
+    </SelectedPrefecturesContext.Provider>,
+  );
+};
 
 // highchartsのモック
 vi.mock('highcharts-react-official', () => ({
@@ -55,55 +69,61 @@ describe('PopulationChart', () => {
     ],
   ];
 
-  const mockPrefectures: Prefecture[] = [
-    { prefCode: 1, prefName: '北海道' },
-    { prefCode: 2, prefName: '青森県' },
+  const mockPrefectures = [
+    {
+      region: '北海道・東北',
+      prefs: [
+        { prefCode: 1, prefName: '北海道' },
+        { prefCode: 2, prefName: '青森県' },
+      ],
+    },
   ];
 
-  const mockSelectedPrefectures = [1, 2];
-
-  const mockCategory: PopulationCategory = '総人口';
-
   it('チャートが正しくレンダリングされること', () => {
-    render(
+    renderWithProvider(
       <PopulationChart
         value={mockPopulations}
-        selectedPrefectures={mockSelectedPrefectures}
         prefectures={mockPrefectures}
-        populationCategory={mockCategory}
+        isLoadingPopulation={false}
       />,
     );
 
     expect(screen.getByTestId('highcharts')).toBeDefined();
-    expect(screen.getByTestId('chart-title').textContent).toBe(mockCategory);
     expect(screen.getByTestId('chart-series').textContent).includes('北海道');
     expect(screen.getByTestId('chart-series').textContent).includes('青森県');
   });
 
-  it('データが空の場合、何もレンダリングされないこと', () => {
-    const { container } = render(
+  it('データが空の場合、エンプティーステートが表示されること', () => {
+    renderWithProvider(
       <PopulationChart
         value={[]}
-        selectedPrefectures={mockSelectedPrefectures}
         prefectures={mockPrefectures}
-        populationCategory={mockCategory}
+        isLoadingPopulation={true}
       />,
     );
 
-    expect(container.firstChild).toBeNull();
+    expect(screen.getByText('都道府県を選択してください')).toBeDefined();
   });
 
-  it('指定されたカテゴリのデータが存在しない場合、何もレンダリングされないこと', () => {
-    const nonExistingCategory = '存在しないカテゴリ' as PopulationCategory;
-    const { container } = render(
+  it('指定されたカテゴリのデータが存在しない場合、エンプティーステートが表示されること', () => {
+    renderWithProvider(
       <PopulationChart
-        value={mockPopulations}
-        selectedPrefectures={mockSelectedPrefectures}
+        value={[
+          [
+            {
+              label: '存在しないカテゴリ',
+              data: [
+                { year: 2015, value: 1000 },
+                { year: 2020, value: 900 },
+              ],
+            },
+          ],
+        ]}
         prefectures={mockPrefectures}
-        populationCategory={nonExistingCategory}
+        isLoadingPopulation={true}
       />,
     );
 
-    expect(container.firstChild).toBeNull();
+    expect(screen.getByText('都道府県を選択してください')).toBeDefined();
   });
 });

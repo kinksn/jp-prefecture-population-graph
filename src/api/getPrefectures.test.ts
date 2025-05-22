@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
-import { getPrefectures } from './prefectures';
+import { getPrefectures } from './getPrefectures';
 import * as apiClient from './client';
 
 describe('getPrefectures', () => {
