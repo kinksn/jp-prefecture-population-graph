@@ -19,17 +19,8 @@ const PopulationResponse = z.object({
 });
 export type PopulationSeries = z.infer<typeof PoplationSeries>;
 
-const popCache = new Map<number, Promise<PopulationSeries[]>>();
-
-/** 指定都道府県の人口推移を取得・キャッシュ */
 export function getPopulation(prefCode: number): Promise<PopulationSeries[]> {
-  if (!popCache.has(prefCode)) {
-    popCache.set(
-      prefCode,
-      apiFetch<z.infer<typeof PopulationResponse>>(
-        `/population/composition/perYear?prefCode=${prefCode}`,
-      ).then((d) => PopulationResponse.parse(d).result.data),
-    );
-  }
-  return popCache.get(prefCode)!;
+  return apiFetch<z.infer<typeof PopulationResponse>>(
+    `/population/composition/perYear?prefCode=${prefCode}`,
+  ).then((d) => PopulationResponse.parse(d).result.data);
 }

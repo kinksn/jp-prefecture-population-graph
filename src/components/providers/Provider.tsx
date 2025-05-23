@@ -1,8 +1,7 @@
-import { SelectedPrefecturesProvider } from '@/contexts/selectedPrefectures/SelectedPrefecturesProvider';
-import { SideMenuProvider } from '@/contexts/sideMenu/SideMenuProvider';
-import { Theme } from '@radix-ui/themes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ScrollLock } from './ScrollLock';
+import { SideMenuProvider } from '@/components/providers/sideMenu/SideMenuProvider';
+import { SelectedPrefecturesProvider } from './selectedPrefectures/SelectedPrefecturesProvider';
 
 const queryClient = new QueryClient();
 
@@ -11,9 +10,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       <SideMenuProvider>
         <ScrollLock />
-        <SelectedPrefecturesProvider>
-          <Theme>{children}</Theme>
-        </SelectedPrefecturesProvider>
+        <SelectedPrefecturesProvider>{children}</SelectedPrefecturesProvider>
       </SideMenuProvider>
     </QueryClientProvider>
   );

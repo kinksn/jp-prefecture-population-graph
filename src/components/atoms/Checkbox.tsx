@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import CheckIcon from '@/components/assets/icons/check.svg?react';
 
 type ButtonProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  label: string;
+  label?: string;
   isLabelHidden?: boolean;
 };
 
@@ -22,11 +22,11 @@ export const Checkbox = ({
         <input
           type="checkbox"
           checked={checked}
+          aria-checked={checked}
           aria-label={label}
           className={cn(
             'border-line-basic box-border block size-5 appearance-none rounded-lg border bg-white',
             'checked:border-primary checked:bg-primary',
-            'focus:outline-none',
             'disabled:cursor-not-allowed disabled:opacity-50',
             'cursor-pointer',
             `${!checked && 'hover:bg-hover'} transition`,

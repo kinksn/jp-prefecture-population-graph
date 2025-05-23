@@ -12,22 +12,19 @@ function App() {
   const { data: prefecturesData = [], isLoading: isLoadingPrefectures } =
     usePrefectures();
   const { selectedPrefectures } = useSelectedPrefecture();
-  const { data: populationsData, isLoading: isLoadingPopulation } =
-    usePopulations(selectedPrefectures);
-
+  const { data: populationsData } = usePopulations(selectedPrefectures);
   const { isSideMenuOpen } = useSideMenu();
 
   return (
     <div className="h-svh">
       <main
-        className={`h-full px-5 max-sm:px-0 ${isSideMenuOpen && 'lg:pr-[calc(var(--sidemenu-width)+20px)]'} transition md:pb-10`}
+        className={`h-full px-5 transition max-sm:px-0 md:pb-10 ${isSideMenuOpen && 'lg:pr-[calc(var(--sidemenu-width)+20px)]'}`}
       >
         <Header className="max-sm:pl-5" />
         <ContentBase className="min-h-[calc(100%-var(--header-height))] p-10 max-sm:rounded-b-none">
           <PopulationChart
             value={populationsData}
             prefectures={prefecturesData}
-            isLoadingPopulation={isLoadingPopulation}
           />
         </ContentBase>
       </main>

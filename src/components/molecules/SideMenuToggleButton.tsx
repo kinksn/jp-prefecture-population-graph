@@ -8,11 +8,16 @@ export const SideMenuToggleButton = ({
   ...props
 }: SideMenuToggleButtonProps) => {
   const { isSideMenuOpen, toggleSideMenu } = useSideMenu();
+
   return (
-    <Button {...props} onClick={toggleSideMenu}>
-      <ColumnIcon
-        className={`size-6 ${isSideMenuOpen ? 'text-primary' : 'text-inactive'}`}
-      />
-    </Button>
+    <Button
+      onClick={toggleSideMenu}
+      icon={
+        <ColumnIcon
+          className={`size-6 ${isSideMenuOpen ? 'text-primary' : 'text-inactive'}`}
+        />
+      }
+      {...props}
+    />
   );
 };

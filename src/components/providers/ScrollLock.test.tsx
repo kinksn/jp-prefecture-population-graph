@@ -1,4 +1,3 @@
-// src/components/providers/__tests__/ScrollLock.test.tsx
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -39,10 +38,10 @@ describe('ScrollLock', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // スクロール位置とbodyスタイルをリセット
     scrollY = 0;
     document.body.style.cssText = originalBodyStyle;
-    // デフォルトで小さいPC表示（1024px以下）をモック
+
+    // 小さいPC表示（1024px以下）をモック
     mockMatchMedia.mockReturnValue({
       matches: true,
       addEventListener: vi.fn(),
@@ -51,16 +50,14 @@ describe('ScrollLock', () => {
   });
 
   afterAll(() => {
-    // テスト終了後に元の実装を復元
     window.scrollTo = originalScrollTo;
   });
 
-  it('小さいPC表示（1024px以下）でサイドメニューが開いた時にスクロールをロックする', () => {
+  it('小さいPC表示（1024px以下）でサイドメニューが開いた時にスクロールをロックすること', () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: true,
       toggleSideMenu: vi.fn(),
     });
-
     window.scrollTo(0, 100);
     render(<ScrollLock />);
 
@@ -69,17 +66,13 @@ describe('ScrollLock', () => {
     expect(document.body.style.top).toBe('-100px');
   });
 
-  it('小さいPC表示（1024px以下）でサイドメニューが閉じた時にスクロールロックを解除する', () => {
-    // 最初に開いた状態でレンダリング
+  it('小さいPC表示（1024px以下）でサイドメニューが閉じた時にスクロールロックを解除すること', () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: true,
       toggleSideMenu: vi.fn(),
     });
-
     window.scrollTo(0, 100);
     const { rerender } = render(<ScrollLock />);
-
-    // 閉じた状態に変更
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: false,
       toggleSideMenu: vi.fn(),
@@ -92,19 +85,17 @@ describe('ScrollLock', () => {
     expect(window.scrollY).toBe(100);
   });
 
-  it('デスクトップ表示ではスクロールロックが適用されない', () => {
+  it('デスクトップ表示ではスクロールロックが適用されないこと', () => {
     // デスクトップ表示をモック
     mockMatchMedia.mockReturnValue({
       matches: false,
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
     });
-
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: true,
       toggleSideMenu: vi.fn(),
     });
-
     window.scrollTo(0, 100);
     render(<ScrollLock />);
 
@@ -113,13 +104,13 @@ describe('ScrollLock', () => {
     expect(document.body.style.top).toBe('');
   });
 
-  it('コンポーネントは何もレンダリングしない', () => {
+  it('コンポーネントは何もレンダリングしないこと', () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: true,
       toggleSideMenu: vi.fn(),
     });
-
     const { container } = render(<ScrollLock />);
+
     expect(container).toBeEmptyDOMElement();
   });
 });

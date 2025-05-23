@@ -1,29 +1,19 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { apiFetch, ApiError } from './client';
 
 describe('apiFetch', () => {
   const mockResponse = { message: null, result: 'test-data' };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let fetchMock: any;
 
-  beforeEach(() => {
-    // fetchのモック
-    fetchMock = vi
+  it('正しいURLとヘッダーでリクエストを行うこと', async () => {
+    const fetchMock = vi
       .spyOn(global, 'fetch')
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .mockImplementation((_input: RequestInfo | URL, _init?: RequestInit) =>
         Promise.resolve({
           ok: true,
           json: () => Promise.resolve(mockResponse),
         } as Response),
       );
-  });
 
-  afterEach(() => {
-    fetchMock.mockRestore();
-  });
-
-  it('正しいURLとヘッダーでリクエストを行うこと', async () => {
     const path = '/test-path';
     await apiFetch(path);
 
@@ -37,16 +27,28 @@ describe('apiFetch', () => {
         }),
       }),
     );
+
+    fetchMock.mockRestore();
   });
 
   it('レスポンスが正常な場合、JSONデータを返すこと', async () => {
+    const fetchMock = vi
+      .spyOn(global, 'fetch')
+      .mockImplementation((_input: RequestInfo | URL, _init?: RequestInit) =>
+        Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(mockResponse),
+        } as Response),
+      );
+
     const result = await apiFetch('/test-path');
     expect(result).toEqual(mockResponse);
+
+    fetchMock.mockRestore();
   });
 
   it('レスポンスがエラーの場合、ApiErrorをスローすること', async () => {
-    // 両方のテストケースでエラーを返すようにする
-    fetchMock.mockImplementation(() =>
+    const fetchMock = vi.spyOn(global, 'fetch').mockImplementation(() =>
       Promise.resolve({
         ok: false,
         status: 404,
@@ -58,5 +60,7 @@ describe('apiFetch', () => {
     await expect(apiFetch('/not-found')).rejects.toMatchObject({
       status: 404,
     });
+
+    fetchMock.mockRestore();
   });
 });

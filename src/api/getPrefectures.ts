@@ -14,13 +14,8 @@ export type Prefecture = z.infer<
   typeof PrefectureListResponse
 >['result'][number];
 
-let prefecturesCache: Promise<Prefecture[]> | null = null;
-
 export function getPrefectures(): Promise<Prefecture[]> {
-  if (!prefecturesCache) {
-    prefecturesCache = apiFetch<z.infer<typeof PrefectureListResponse>>(
-      '/prefectures',
-    ).then((d) => PrefectureListResponse.parse(d).result);
-  }
-  return prefecturesCache;
+  return apiFetch<z.infer<typeof PrefectureListResponse>>('/prefectures').then(
+    (d) => PrefectureListResponse.parse(d).result,
+  );
 }

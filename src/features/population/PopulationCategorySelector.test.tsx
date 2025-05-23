@@ -16,7 +16,7 @@ describe('PopulationCategorySelector', () => {
     mockOnChange.mockClear();
   });
 
-  it('正しくレンダリングされること', () => {
+  it('正しく表示されること', () => {
     render(
       <PopulationCategorySelector
         value={mockOptions[0]}
@@ -25,7 +25,6 @@ describe('PopulationCategorySelector', () => {
     );
 
     expect(screen.getByText('人口区分')).toBeDefined();
-
     mockOptions.forEach((option) => {
       expect(screen.getByLabelText(option)).toBeDefined();
     });
@@ -39,15 +38,15 @@ describe('PopulationCategorySelector', () => {
       />,
     );
 
-    const checkedInput = screen.getByLabelText(
+    const checkedInput: HTMLInputElement = screen.getByLabelText(
       mockOptions[1],
-    ) as HTMLInputElement;
-    expect(checkedInput.checked).toBe(true);
+    );
 
+    expect(checkedInput.checked).toBe(true);
     mockOptions
       .filter((option) => option !== mockOptions[1])
       .forEach((option) => {
-        const input = screen.getByLabelText(option) as HTMLInputElement;
+        const input: HTMLInputElement = screen.getByLabelText(option);
         expect(input.checked).toBe(false);
       });
   });
@@ -59,7 +58,6 @@ describe('PopulationCategorySelector', () => {
         onChange={mockOnChange}
       />,
     );
-
     const secondOption = screen.getByLabelText(mockOptions[1]);
     fireEvent.click(secondOption);
 

@@ -25,46 +25,46 @@ describe('SideMenuToggleButton', () => {
     vi.clearAllMocks();
   });
 
-  it('サイドメニューが閉じている状態で正しく表示される', () => {
+  it('サイドメニューが閉じている時、表示されること', () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: false,
       toggleSideMenu: mockToggleSideMenu,
     });
-
     render(<SideMenuToggleButton />);
     const icon = screen.getByTestId('column-icon');
+
     expect(icon).toHaveClass('text-inactive');
   });
 
-  it('サイドメニューが開いている状態で正しく表示される', () => {
+  it('サイドメニューが開いている時、表示されること', () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: true,
       toggleSideMenu: mockToggleSideMenu,
     });
-
     render(<SideMenuToggleButton />);
     const icon = screen.getByTestId('column-icon');
+
     expect(icon).toHaveClass('text-primary');
   });
 
-  it('クリック時にtoggleSideMenuが呼ばれる', async () => {
+  it('クリック時にtoggleSideMenuが呼ばれること', async () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: false,
       toggleSideMenu: mockToggleSideMenu,
     });
-
     render(<SideMenuToggleButton />);
     await userEvent.click(screen.getByRole('button'));
+
     expect(mockToggleSideMenu).toHaveBeenCalledTimes(1);
   });
 
-  it('カスタムクラスが適用される', () => {
+  it('クラス指定が適用されること', () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: false,
       toggleSideMenu: mockToggleSideMenu,
     });
-
     render(<SideMenuToggleButton className="custom-class" />);
+
     expect(screen.getByRole('button')).toHaveClass('custom-class');
   });
 });
