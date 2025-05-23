@@ -10,14 +10,13 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:watch": "vitest -w",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@radix-ui/colors": "^3.0.0",
-    "@radix-ui/themes": "^3.2.1",
     "@tailwindcss/vite": "^4.1.7",
     "@tanstack/react-query": "^5.76.1",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "highcharts": "^12.2.0",
     "highcharts-react-official": "^3.2.2",
@@ -48,7 +47,6 @@
     "jsdom": "^26.1.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss-radix": "^4.0.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5",

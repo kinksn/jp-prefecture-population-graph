@@ -33,52 +33,65 @@ describe('SideMenu', () => {
     vi.clearAllMocks();
   });
 
-  it('サイドメニューが閉じている場合は何も表示されない', () => {
+  it('サイドメニューが閉じている場合は何も表示されないこと', () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: false,
       toggleSideMenu: mockToggleSideMenu,
     });
-
     const { container } = render(
-      <SideMenu headerLabel="テストメニュー">コンテンツ</SideMenu>,
+      <SideMenu headerLabel="メニュー">コンテンツ</SideMenu>,
     );
+
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('サイドメニューが開いている場合は正しく表示される', () => {
+  it('サイドメニューが開いている場合は表示されること', () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: true,
       toggleSideMenu: mockToggleSideMenu,
     });
+    render(<SideMenu headerLabel="メニュー">コンテンツ</SideMenu>);
 
-    render(<SideMenu headerLabel="テストメニュー">コンテンツ</SideMenu>);
-    expect(screen.getByText('テストメニュー')).toBeInTheDocument();
+    expect(screen.getByText('メニュー')).toBeInTheDocument();
     expect(screen.getByText('コンテンツ')).toBeInTheDocument();
   });
 
-  it('オーバーレイをクリックするとtoggleSideMenuが呼ばれる', async () => {
+  it('オーバーレイをクリックするとサイドメニューが閉じること', async () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: true,
       toggleSideMenu: mockToggleSideMenu,
     });
+    const { rerender } = render(
+      <SideMenu headerLabel="メニュー">コンテンツ</SideMenu>,
+    );
 
-    render(<SideMenu headerLabel="テストメニュー">コンテンツ</SideMenu>);
+    expect(screen.getByText('メニュー')).toBeInTheDocument();
+
     const overlay = screen.getByText('', { selector: 'span.bg-overlay' });
     await userEvent.click(overlay);
+
     expect(mockToggleSideMenu).toHaveBeenCalledTimes(1);
+
+    vi.mocked(useSideMenu).mockReturnValue({
+      isSideMenuOpen: false,
+      toggleSideMenu: mockToggleSideMenu,
+    });
+    rerender(<SideMenu headerLabel="メニュー">コンテンツ</SideMenu>);
+
+    expect(screen.queryByText('メニュー')).not.toBeInTheDocument();
   });
 
-  it('カスタムクラスが適用される', () => {
+  it('クラス指定が適用されること', () => {
     vi.mocked(useSideMenu).mockReturnValue({
       isSideMenuOpen: true,
       toggleSideMenu: mockToggleSideMenu,
     });
-
     render(
-      <SideMenu headerLabel="テストメニュー" className="custom-class">
+      <SideMenu headerLabel="メニュー" className="custom-class">
         コンテンツ
       </SideMenu>,
     );
+
     expect(screen.getByTestId('content-base')).toHaveClass('custom-class');
   });
 });
