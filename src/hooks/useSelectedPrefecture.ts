@@ -1,7 +1,7 @@
 import {
   SelectedPrefecturesContext,
   SelectedPrefecturesContextType,
-} from '@/components/providers/selectedPrefectures/selectedPrefecturesContext';
+} from '@/providers/selectedPrefectures/selectedPrefecturesContext';
 import { useContext } from 'react';
 
 export const useSelectedPrefecture = (): SelectedPrefecturesContextType => {

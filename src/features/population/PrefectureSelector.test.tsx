@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { PrefectureSelector } from './PrefectureSelector';
-import { SelectedPrefecturesContext } from '@/components/providers/selectedPrefectures/selectedPrefecturesContext';
+import { SelectedPrefecturesContext } from '@/providers/selectedPrefectures/selectedPrefecturesContext';
 
 // SVG画像のモック
 vi.mock('@/components/assets/icons/check.svg?react', () => ({
