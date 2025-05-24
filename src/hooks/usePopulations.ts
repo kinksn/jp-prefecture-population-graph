@@ -9,10 +9,11 @@ export function usePopulations(prefCodes: Prefecture['prefCode'][]) {
       prefCodes.map((prefCode) => ({
         queryKey: ['population', prefCode],
         queryFn: () => getPopulation(prefCode),
-        staleTime: 1000 * 60 * 60, // 1h
+        staleTime: 1000 * 60 * 60, // 1時間
+        cacheTime: 1000 * 60 * 60, // 1時間
         retry: 2,
       })),
-    [prefCodes.join(',')],
+    [prefCodes],
   );
 
   const queries = useQueries({ queries: queryDefs });

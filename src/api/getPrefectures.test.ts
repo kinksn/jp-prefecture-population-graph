@@ -12,7 +12,6 @@ describe('getPrefectures', () => {
     ],
   };
 
-  // テスト全体で一度だけモックを設定
   beforeAll(() => {
     vi.spyOn(apiClient, 'apiFetch').mockResolvedValue(mockPrefecturesData);
   });
@@ -28,16 +27,26 @@ describe('getPrefectures', () => {
     expect(apiClient.apiFetch).toHaveBeenCalledWith('/prefectures');
   });
 
-  it('二回目以降の呼び出しではキャッシュを使用すること', async () => {
-    // キャッシュをクリアする代わりに、直接テスト
-    vi.clearAllMocks(); // カウンタのみリセット
+  it('APIエラー時に適切なエラーをスローすること', async () => {
+    const errorResponse = new apiClient.ApiError(404, { message: 'Not Found' });
+    vi.spyOn(apiClient, 'apiFetch').mockRejectedValue(errorResponse);
 
-    // 1回目の呼び出し
-    await getPrefectures();
-    // 2回目の呼び出し
-    await getPrefectures();
+    await expect(getPrefectures()).rejects.toThrow(apiClient.ApiError);
+    await expect(getPrefectures()).rejects.toMatchObject({
+      status: 404,
+      body: { message: 'Not Found' },
+    });
+  });
 
-    // apiFetchは1回しか呼ばれないはず（既にキャッシュされているため）
-    expect(apiClient.apiFetch).toHaveBeenCalledTimes(0);
+  it('都道府県リストが空の場合、空のデータを返すこと', async () => {
+    const emptyResponse = {
+      message: null,
+      result: [],
+    };
+    vi.spyOn(apiClient, 'apiFetch').mockResolvedValue(emptyResponse);
+
+    const prefectures = await getPrefectures();
+    expect(prefectures).toEqual([]);
+    expect(prefectures).toHaveLength(0);
   });
 });

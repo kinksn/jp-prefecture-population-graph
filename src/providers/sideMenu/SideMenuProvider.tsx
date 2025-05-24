@@ -9,12 +9,16 @@ export const SideMenuProvider = ({
   children: React.ReactNode;
 }) => {
   const getInitialState = () => {
-    const savedState = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (savedState !== null) {
-      return savedState === 'true';
+    try {
+      const savedState = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (savedState !== null) {
+        return savedState === 'true';
+      }
+    } catch (error) {
+      console.error('Failed to get side menu state from localStorage:', error);
     }
 
-    return true;
+    return false;
   };
 
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(getInitialState);
@@ -24,7 +28,11 @@ export const SideMenuProvider = ({
   };
 
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, String(isSideMenuOpen));
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, String(isSideMenuOpen));
+    } catch (error) {
+      console.error('Failed to save side menu state to localStorage:', error);
+    }
   }, [isSideMenuOpen]);
 
   const value = {

@@ -10,8 +10,8 @@ export const Header = ({ className }: HeaderProps) => {
     <header
       className={cn('flex h-[var(--header-height)] items-center', className)}
     >
-      <h1 className="text-heading text-[28px] leading-none font-bold">
-        日本の人口推移
+      <h1 className="text-heading text-[28px] leading-none font-bold max-sm:text-2xl">
+        日本の人口推移グラフ
       </h1>
       <SideMenuToggleButton className="fixed top-8 right-5 z-10" />
     </header>
