@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { PopulationChart } from './PopulationChart';
 import { PopulationSeries } from '@/api/getPopulation';
-import { SelectedPrefecturesContext } from '@/components/providers/selectedPrefectures/selectedPrefecturesContext';
-import { SideMenuProvider } from '@/components/providers/sideMenu/SideMenuProvider';
+import { SelectedPrefecturesContext } from '@/providers/selectedPrefectures/selectedPrefecturesContext';
+import { SideMenuProvider } from '@/providers/sideMenu/SideMenuProvider';
 import { useSideMenu } from '@/hooks/useSideMenu';
 
 // SVG画像をモック

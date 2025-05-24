@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useSelectedPrefecture } from './useSelectedPrefecture';
-import { SelectedPrefecturesContext } from '@/components/providers/selectedPrefectures/selectedPrefecturesContext';
+import { SelectedPrefecturesContext } from '@/providers/selectedPrefectures/selectedPrefecturesContext';
 
 describe('useSelectedPrefecture', () => {
   it('React Contextから正しい値を取得できること', () => {

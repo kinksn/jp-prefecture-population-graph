@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useSideMenu } from './useSideMenu';
-import { SideMenuContext } from '@/components/providers/sideMenu/sideMenuContext';
+import { SideMenuContext } from '@/providers/sideMenu/sideMenuContext';
 
 describe('useSideMenu', () => {
   it('React Contextから正しい値を取得できること', () => {

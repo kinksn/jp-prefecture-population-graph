@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { vi } from 'vitest';
 
 // CSS.supportsのモック
 Object.defineProperty(window, 'CSS', {

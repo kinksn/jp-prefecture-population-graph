@@ -1,55 +1,136 @@
-# jp-prefecture-population-graph
+# 日本の都道府県別人口推移グラフ
 
+## 開発環境のセットアップ
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**環境変数は1つのみ（`VITE_RESAS_API_KEY`）で、`.env`ファイルで管理しています**
 
-Currently, two official plugins are available:
+Node.jsバージョン
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+21.4.0
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+依存関係のインストール
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+pnpm install
 ```
+
+開発サーバーの起動
+
+```bash
+pnpm dev
+```
+
+テストの実行
+
+```bash
+pnpm test
+pnpm test:coverage
+```
+
+## 課題の取り組みについて
+
+### 開発期間
+
+- 開始日：2025/5/17
+- 完了日：2025/5/24
+- 合計時間：42h
+
+### 開発経験
+
+- プログラミング歴：9年
+- フロントエンド開発歴：2.5年
+
+### 参考にしたリソース
+
+- [TailwindCSS v4のキャッチアップ](https://tailwindcss.com/blog/tailwindcss-v4)
+- [vitestのAPI調査](https://vitest.dev/guide/)
+- [SVG画像の管理方法について](https://zenn.dev/game8_blog/articles/3ab01eee2a6306)
+- [dribbbleでデザイン調査](https://dribbble.com/search/chart-ui)
+
+### 主にAIに任せたもの
+
+- 各種設定ファイルの調整
+  - vitest,vite,eslint,prettier
+- テストコードの叩き作成
+  - `test:coverage`を確認して不足があれば手動で追加
+- Atomic Designを考慮したディレクトリ構成
+
+```
+src/
+├── components/
+│   ├── atoms/          # 最小単位のコンポーネント
+│   │   ├── Button/
+│   │   │   ├── Button.tsx
+│   │   │   └── Button.stories.tsx
+│   │   ├── Input/
+│   │   └── Text/
+│   │
+│   ├── molecules/      # atomsを組み合わせた複合コンポーネント
+│   │   ├── FormField/
+│   │   │   ├── FormField.tsx
+│   │   │   └── FormField.stories.tsx
+│   │   └── SearchBar/
+│   │
+│   ├── organisms/      # より大きな機能単位のコンポーネント
+│   │   ├── Header/
+│   │   │   ├── Header.tsx
+│   │   │   └── Header.stories.tsx
+│   │   └── Sidebar/
+│   │
+│   └── templates/      # ページのレイアウトテンプレート
+│       ├── DefaultLayout/
+│       └── AuthLayout/
+│
+├── features/           # 機能単位のコンポーネント
+│   ├── auth/
+│   │   ├── components/
+│   │   └── hooks/
+│   └── dashboard/
+│
+├── hooks/             # 共通のカスタムフック
+│   ├── useTheme.ts
+│   └── useMediaQuery.ts
+│
+├── styles/           # スタイル関連
+│   ├── theme.ts
+│   └── global.css
+│
+└── utils/           # ユーティリティ関数
+    ├── constants.ts
+    └── helpers.ts
+```
+
+## 実装のポイント
+
+### データ管理
+
+- ローカルストレージを活用した都道府県選択状態の永続化
+- TanStack Queryを使用したキャッシュ管理とhook実装
+
+### UI/UX
+
+- 地域ごとの都道府県グループ化による直感的な選択UI
+- Atomic Designをベースとしたコンポーネントの分割
+- エンプティーステート/スケルトンスクリーンの実装
+- Figmaでの画面設計
+  - [ワイヤーフレーム](https://www.figma.com/design/OgCX8XIbLa1k4guRcexBxQ/Yumemi-kadai?node-id=6-5&p=f&t=Yda9ZuX6nVwQB75S-0)
+  - [デザイン](https://www.figma.com/design/OgCX8XIbLa1k4guRcexBxQ/Yumemi-kadai?node-id=1-2&p=f&t=Yda9ZuX6nVwQB75S-0)
+
+### プロジェクト管理
+
+- LinearとGithubを連携してフェーズで区切った
+  - [Phase0：環境構築](https://github.com/kinksn/jp-prefecture-population-graph/issues/2)
+  - [Phase1：実装](https://github.com/kinksn/jp-prefecture-population-graph/issues/6)
+  - [Phase2：パフォーマンス改善](https://github.com/kinksn/jp-prefecture-population-graph/issues/7)
+  - [Phase3：UIブラッシュアップ](https://github.com/kinksn/jp-prefecture-population-graph/issues/8)
+  - [Phase4：課題提出のための最終整理](https://github.com/kinksn/jp-prefecture-population-graph/issues/9)
+
+## 改善点
+
+- 後半1コミットあたりの差分が大きくなり過ぎた
+  - [チェックリストの粒度](https://github.com/kinksn/jp-prefecture-population-graph/issues/8?issue=kinksn%7Cjp-prefecture-population-graph%7C22)でコミットすればレビューしやすかったのではと反省
+    - 改善コミット例
+      - レイアウト：ヘッダーの実装
+      - ロジック：都道府県のカテゴリ分け

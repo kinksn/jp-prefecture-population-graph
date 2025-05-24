@@ -13,7 +13,7 @@ export default defineConfig({
     svgr(),
     checker({
       typescript: {
-        tsconfigPath: 'tsconfig.app.json',
+        tsconfigPath: 'tsconfig.json',
       },
       overlay: { initialIsOpen: true },
     }),

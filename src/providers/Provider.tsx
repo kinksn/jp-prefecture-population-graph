@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ScrollLock } from './ScrollLock';
-import { SideMenuProvider } from '@/components/providers/sideMenu/SideMenuProvider';
-import { SelectedPrefecturesProvider } from './selectedPrefectures/SelectedPrefecturesProvider';
+import { ScrollLock } from '@/features/scrollLock/ScrollLock';
+import { SideMenuProvider } from '@/providers/sideMenu/SideMenuProvider';
+import { SelectedPrefecturesProvider } from '@/providers/selectedPrefectures/SelectedPrefecturesProvider';
 
 const queryClient = new QueryClient();
 
