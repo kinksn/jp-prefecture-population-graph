@@ -1,5 +1,9 @@
 # 日本の都道府県別人口推移グラフ
 
+## デプロイ先URL
+
+https://jp-prefecture-population-graph.vercel.app/
+
 ## 開発環境のセットアップ
 
 **環境変数は1つのみ（`VITE_RESAS_API_KEY`）で、`.env`ファイルで管理しています**
